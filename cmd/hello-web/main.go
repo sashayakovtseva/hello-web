@@ -33,7 +33,7 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), unix.SIGTERM, unix.SIGINT)
 	defer cancel()
 
-	grpcServer := grpc.NewServer(logger, &appConfig.GRPC)
+	grpcServer := grpc.NewServer(logger, appConfig)
 
 	gr, appctx := errgroup.WithContext(ctx)
 	gr.Go(func() error {

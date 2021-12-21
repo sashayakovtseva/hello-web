@@ -3,7 +3,6 @@ package config
 import (
 	"errors"
 	"fmt"
-	"time"
 
 	"github.com/jessevdk/go-flags"
 )
@@ -11,7 +10,11 @@ import (
 //nolint:lll
 type (
 	// AppConfig contains full configuration of the service.
+	//nolint:govet
 	AppConfig struct {
+		DefaultFirstName      string `long:"default_fist_name" env:"DEFAULT_FIST_NAME" description:"Default fist name" default:""`
+		DefaultLastNameConfig string `long:"default_last_name_config" env:"DEFAULT_LAST_NAME_CONFIG" description:"Default last name config" default:"local/default_last_name.json"`
+
 		Consul Consul `group:"Consul options" namespace:"consul" env-namespace:"CONSUL"`
 		HTTP   Server `group:"HTTP server options" namespace:"http" env-namespace:"HTTP"`
 		GRPC   Server `group:"GRPC server options" namespace:"grpc" env-namespace:"GRPC"`
@@ -32,9 +35,6 @@ type (
 	Server struct {
 		Host string `long:"host" env:"HOST" description:"Host to listen on, default is empty (all interfaces)"`
 		Port int    `long:"port" env:"PORT" description:"Port to listen on" required:"true"`
-
-		CheckInterval   time.Duration `long:"check_interval" env:"CHECK_INTERVAL" description:"Interval to perform health check of the service" default:"5s"`
-		DeregisterAfter time.Duration `long:"deregister_after" env:"DEREGISTER_AFTER" description:"Interval after which unhealthy service is de-registered" default:"1m"`
 	}
 )
 

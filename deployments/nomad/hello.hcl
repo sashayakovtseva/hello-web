@@ -46,6 +46,28 @@ job "hello" {
         env         = false
       }
 
+      template {
+        data = <<EOH
+          {{with secret "secrets/hello"}}
+          DEFAULT_FIRST_NAME="{{.Data.data.default_first_name}}"
+          {{end}}
+          EOH
+
+        destination = "secrets/file.env"
+        change_mode = "restart"
+        env         = true
+      }
+
+      template {
+        data = <<EOH
+           {{ key "hello/default_last_name" }}
+        EOH
+
+        destination   = "local/default_last_name.json"
+        change_mode   = "signal"
+        change_signal = "SIGHUP"
+      }
+
       service {
         name         = "grpc-hello"
         port         = "grpc"
@@ -62,8 +84,8 @@ job "hello" {
         ]
 
         meta {
-          protocol    = "grpc"
-          dc          = "${attr.consul.datacenter}",
+          protocol = "grpc"
+          dc       = "${attr.consul.datacenter}",
         }
 
         check {
@@ -92,8 +114,8 @@ job "hello" {
         ]
 
         meta {
-          protocol    = "http"
-          dc          = "${attr.consul.datacenter}",
+          protocol = "http"
+          dc       = "${attr.consul.datacenter}",
         }
 
         check {
@@ -104,6 +126,11 @@ job "hello" {
           path     = "/check"
         }
       }
+    }
+
+    resources {
+      cpu_limit    = 300
+      memory_limit = 100
     }
 
     network {
