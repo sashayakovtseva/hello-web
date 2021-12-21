@@ -1,0 +1,16 @@
+version: v1beta1
+name: buf.build/sashayakovtseva/hello-web
+deps:
+  - buf.build/googleapis/googleapis
+
+lint:
+  use:
+    - DEFAULT
+  except:
+    - PACKAGE_DIRECTORY_MATCH
+  enum_zero_value_suffix: _INVALID
+
+build:
+  roots:
+    - api
+

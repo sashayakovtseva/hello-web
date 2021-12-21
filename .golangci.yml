@@ -1,0 +1,114 @@
+run:
+  concurrency: 4
+  deadline: 5m
+  issues-exit-code: 1
+  tests: true
+  build-tags:
+    - integration
+  skip-dirs:
+    - vendor
+  modules-download-mode: vendor
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+  govet:
+    check-shadowing: true
+    enable-all: true
+  golint:
+    min-confidence: 0.8
+  gofmt:
+    simplify: true
+  goimports:
+    local-prefixes: github.com/sashayakovtseva
+  gocyclo:
+    min-complexity: 20
+  cyclop:
+    max-complexity: 20
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  depguard:
+    list-type: blacklist
+    include-go-root: false
+  misspell:
+    locale: US
+  lll:
+    line-length: 150
+    tab-width: 4
+  unused:
+    check-exported: false
+  unparam:
+    check-exported: true
+  nakedret:
+    max-func-lines: 1
+  prealloc:
+    simple: true
+    range-loops: true
+    for-loops: false
+  gocritic:
+    enabled-tags:
+      - performance
+      - diagnostic
+    settings:
+      captLocal:
+        paramsOnly: true
+      rangeValCopy:
+        sizeThreshold: 32
+  tagliatelle:
+    case:
+      use-field-name: true
+      rules:
+        json: snake
+
+linters:
+  enable-all: true
+  fast: false
+  disable:
+    - wsl
+    - funlen
+    - wrapcheck
+    - exhaustivestruct
+    - interfacer
+    - testpackage
+    - nlreturn
+    - gomnd
+    - forbidigo
+    - maligned
+    - godox
+    - maligned
+    - golint
+    - scopelint
+
+issues:
+  exclude:
+    - ST1000 # disable package comments check
+  exclude-rules:
+    - linters:
+        - gosec
+        - gochecknoglobals
+        - goerr113
+      path: _test.go
+
+    - linters:
+        - govet
+      text: "declaration of \"err\" shadows declaration"
+
+    - linters:
+        - lll
+      source: "^//( )?go:generate "
+
+    - linters:
+        - gochecknoglobals
+        - gochecknoinits
+      path: internal/metrics/.*
+
+  exclude-use-default: false
+  max-per-linter: 0
+  max-same-issues: 0
+  new: false
