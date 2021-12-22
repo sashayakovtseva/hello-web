@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package sashayakovtseva.hello.v1;
+
+option go_package = "github.com/sashayakovtseva/hello-web/pkg/grpc";
+
+import "google/api/annotations.proto";
+
+service HelloService {
+    rpc Hello(HelloRequest) returns (HelloResponse) {
+        option (google.api.http) = {
+            get: "/hello/{name}"
+        };
+    }
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+
+message HelloResponse {
+    string greeting = 1;
+}
