@@ -2,7 +2,7 @@ job "hello" {
   type        = "service"
   datacenters = ["dc1"]
 
-  constraint = {
+  constraint {
     operator  = "distinct_property"
     attribute = "${attr.unique.network.ip-address}"
     value     = "2"
@@ -30,7 +30,7 @@ job "hello" {
 
     task "hello" {
       driver = "docker"
-      config = {
+      config {
         image = "docker.io/sashayakovtseva/hello-web:v0.1.0"
         ports = ["grpc", "http"]
       }
@@ -48,7 +48,7 @@ job "hello" {
 
       template {
         data = <<EOH
-          {{with secret "secrets/hello"}}
+          {{with secret "secret/hello"}}
           DEFAULT_FIRST_NAME="{{.Data.data.default_first_name}}"
           {{end}}
           EOH
@@ -60,7 +60,7 @@ job "hello" {
 
       template {
         data = <<EOH
-           {{ key "hello/default_last_name" }}
+           {{ key "hello" }}
         EOH
 
         destination   = "local/default_last_name.json"
@@ -85,7 +85,7 @@ job "hello" {
 
         meta {
           protocol = "grpc"
-          dc       = "${attr.consul.datacenter}",
+          dc       = "${attr.consul.datacenter}"
         }
 
         check {
@@ -115,7 +115,7 @@ job "hello" {
 
         meta {
           protocol = "http"
-          dc       = "${attr.consul.datacenter}",
+          dc       = "${attr.consul.datacenter}"
         }
 
         check {
@@ -126,11 +126,11 @@ job "hello" {
           path     = "/check"
         }
       }
-    }
 
-    resources {
-      cpu_limit    = 300
-      memory_limit = 100
+      resources {
+        cpu    = 300
+        memory = 100
+      }
     }
 
     network {
