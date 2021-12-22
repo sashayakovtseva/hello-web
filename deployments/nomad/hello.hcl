@@ -31,13 +31,15 @@ job "hello" {
     task "hello" {
       driver = "docker"
       config {
-        image = "docker.io/sashayakovtseva/hello-web:v0.1.0"
+        image = "docker.io/sashayakovtseva/hello-web:v0.2.0-rc1"
         ports = ["grpc", "http"]
       }
 
       env {
         GRPC_PORT = "50051"
         HTTP_PORT = "6060"
+
+        DEFAULT_LAST_NAME_CONFIG = "${NOMAD_TASK_DIR}/default_last_name.json"
       }
 
       vault {
@@ -75,12 +77,12 @@ job "hello" {
 
         tags = [
           "green",
-          "v0.1.0"
+          "v0.2.0-rc1"
         ]
 
         canary_tags = [
           "blue",
-          "v0.1.0"
+          "v0.2.0-rc1"
         ]
 
         meta {
@@ -105,12 +107,12 @@ job "hello" {
 
         tags = [
           "green",
-          "v0.1.0"
+          "v0.2.0-rc1"
         ]
 
         canary_tags = [
           "blue",
-          "v0.1.0"
+          "v0.2.0-rc1"
         ]
 
         meta {

@@ -13,7 +13,7 @@ type (
 	//nolint:govet
 	AppConfig struct {
 		DefaultFirstName      string `long:"default_fist_name" env:"DEFAULT_FIST_NAME" description:"Default fist name" default:""`
-		DefaultLastNameConfig string `long:"default_last_name_config" env:"DEFAULT_LAST_NAME_CONFIG" description:"Default last name config" default:"local/default_last_name.json"`
+		DefaultLastNameConfig string `long:"default_last_name_config" env:"DEFAULT_LAST_NAME_CONFIG" description:"Default last name config" default:"default_last_name.json"`
 
 		Consul Consul `group:"Consul options" namespace:"consul" env-namespace:"CONSUL"`
 		HTTP   Server `group:"HTTP server options" namespace:"http" env-namespace:"HTTP"`
