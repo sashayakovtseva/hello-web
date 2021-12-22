@@ -31,7 +31,7 @@ job "hello" {
     task "hello" {
       driver = "docker"
       config {
-        image = "docker.io/sashayakovtseva/hello-web:v0.2.0-rc1"
+        image = "docker.io/sashayakovtseva/hello-web:v0.2.0"
         ports = ["grpc", "http"]
       }
 
@@ -77,12 +77,12 @@ job "hello" {
 
         tags = [
           "green",
-          "v0.2.0-rc1"
+          "v0.2.0"
         ]
 
         canary_tags = [
           "blue",
-          "v0.2.0-rc1"
+          "v0.2.0"
         ]
 
         meta {
@@ -107,12 +107,12 @@ job "hello" {
 
         tags = [
           "green",
-          "v0.2.0-rc1"
+          "v0.2.0"
         ]
 
         canary_tags = [
           "blue",
-          "v0.2.0-rc1"
+          "v0.2.0"
         ]
 
         meta {
