@@ -47,7 +47,7 @@ func (s *Server) Serve(ctx context.Context) error {
 
 	srv := &http.Server{
 		Addr:    ":" + strconv.Itoa(s.config.HTTP.Port),
-		Handler: gw,
+		Handler: router(gw),
 	}
 
 	e := make(chan error, 1)
@@ -73,4 +73,15 @@ func (s *Server) Serve(ctx context.Context) error {
 	case err := <-e:
 		return err
 	}
+}
+
+func router(gRPCGateway http.Handler) http.Handler {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/check", func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+	mux.Handle("/", gRPCGateway)
+
+	return mux
 }
